@@ -77,5 +77,4 @@ product.forEach((product)=>{
     </button>
   </div>`
 })
-console.log(productHTML)
 document.querySelector('.js-product-grid').innerHTML=productHTML
