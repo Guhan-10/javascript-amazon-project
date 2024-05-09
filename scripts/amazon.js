@@ -1,33 +1,5 @@
-const product=[{
-image:'images/products/athletic-cotton-socks-6-pairs.jpg',
-name:'Black and Gray Athletic Cotton Socks - 6 Pairs',
-rating:{
-    stars:45,
-    count:87
-},
-costInCents:1090
-},
-{
-    image:'images/products/intermediate-composite-basketball.jpg',
-    name:'Intermediate Size Basketball',
-    rating:{
-        stars:40,
-        count:127
-    },
-    costInCents:2095
-},
-{
-    image:'images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg',
-    name:'Adults Plain Cotton T-Shirt - 2 Pack',
-    rating:{
-        stars:45,
-        count:56
-    },
-    costInCents:799
-
-}]
 let productHTML=''
-product.forEach((product)=>{
+products.forEach((product)=>{
     productHTML+=`<div class="product-container">
     <div class="product-image-container">
       <img class="product-image"
@@ -47,7 +19,7 @@ product.forEach((product)=>{
     </div>
 
     <div class="product-price">
-      $${(product.costInCents/100).toFixed(2)}
+      $${(product.priceCents/100).toFixed(2)}
     </div>
 
     <div class="product-quantity-container">
@@ -72,9 +44,33 @@ product.forEach((product)=>{
       Added
     </div>
 
-    <button class="add-to-cart-button button-primary">
+    <button class="add-to-cart-button button-primary 
+    js-add-button" data-product-Id="${product.id}">
       Add to Cart
     </button>
   </div>`
 })
 document.querySelector('.js-product-grid').innerHTML=productHTML
+document.querySelectorAll('.js-add-button').forEach((button)=>{
+    button.addEventListener('click',()=>{
+        const productId=button.dataset.productId
+        let matchedItem;
+        cart.forEach((item)=>{
+            if(productId===item.productId){
+                matchedItem=item
+            }
+        })
+        if(matchedItem){
+            matchedItem.quantity+=1
+        }else{
+        cart.push({
+            productId:productId,
+            quantity:1
+        })}
+        let cartCounter=0
+        cart.forEach((item)=>{
+          cartCounter+=item.quantity
+        })
+        document.querySelector('.cart-quantity').innerHTML=cartCounter
+    })
+})
